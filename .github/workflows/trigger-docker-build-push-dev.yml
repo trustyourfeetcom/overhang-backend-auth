@@ -1,0 +1,38 @@
+name: Trigger Docker Build-Push
+
+on:
+  push:
+    branches:
+      - feature/*
+      - bugfix/*
+      - hotfix/*
+      - release/*
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Extract Short Commit SHA
+      id: extract_sha
+      run: echo "SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+
+    - name: Notify Deployment Repo
+      uses: actions/github-script@v5
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.repos.createDispatchEvent({
+            owner: ${{ github.repository_owner }},
+            repo: 'overhang-devops-manifest',
+            event_type: 'docker-build-push',
+            client_payload: {
+              service_name: ${{ github.event.repository.name }},
+              commit_sha: ${{ github.sha }},
+              org_name: ${{ github.repository_owner }},
+              image_tag: process.env.SHORT_SHA
+            }
+          })
