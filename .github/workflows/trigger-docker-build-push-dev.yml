@@ -23,7 +23,7 @@ jobs:
     - name: Notify Deployment Repo
       uses: actions/github-script@v5
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GH_TOKEN }}
         script: |
           github.repos.createDispatchEvent({
             owner: ${{ github.repository_owner }},
