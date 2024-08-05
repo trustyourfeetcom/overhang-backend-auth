@@ -1,4 +1,4 @@
-name: Trigger Docker Build-Push
+name: Trigger Package and Push
 
 on:
   push:
