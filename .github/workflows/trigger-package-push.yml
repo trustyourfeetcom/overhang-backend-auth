@@ -1,4 +1,4 @@
-name: Trigger Docker Build-Push
+name: Trigger Package and Push
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Extract Short Commit SHA
       id: extract_sha
@@ -31,6 +31,7 @@ jobs:
             event_type: 'docker-build-push',
             client_payload: {
               service_repo: '${{ github.repository }}',
+              service_name: '${{ github.event.repository.name }}',
               commit_sha: '${{ github.sha }}',
               org_name: '${{ github.repository_owner }}',
               image_tag: '${{ env.SHORT_SHA }}'
