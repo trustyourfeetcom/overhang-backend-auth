@@ -5,7 +5,6 @@
 .env*
 
 # VSCode
-.vscode/
 eclipse-formatter.xml
 
 # Build
@@ -69,3 +68,6 @@ build/
 .vscode/
 
 .fake
+
+### MacOS ###
+.DS_STORE
