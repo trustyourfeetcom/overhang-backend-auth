@@ -30,7 +30,7 @@ jobs:
             repo: 'overhang-devops-manifest',
             event_type: 'docker-build-push',
             client_payload: {
-              service_name: '${{ github.event.repository.name }}',
+              service_repo: '${{ github.repository }}',
               commit_sha: '${{ github.sha }}',
               org_name: '${{ github.repository_owner }}',
               image_tag: '${{ env.SHORT_SHA }}'
