@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/trustyourfeetcom/overhang-backend-auth">
-    <img src="https://github.com/trustyourfeetcom/overhang-branding-assets/blob/main/logos/logo.png?raw=true" alt="Serenaid Logo" width="120" height="120">
+    <img src="https://github.com/trustyourfeetcom/overhang-branding-assets/blob/main/logos/logo.png?raw=true" alt="Overhang Logo" width="120" height="120">
   </a>
 
 <h3 align="center">Overhang</h3>
