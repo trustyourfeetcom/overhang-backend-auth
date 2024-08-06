@@ -65,7 +65,7 @@
 
 ## Resources
 
-* [Confluence Page](https://overhang.atlassian.net/wiki/spaces/Documentat/pages/6651905/overhang-backend-auth)
+* [Confluence Page](https://overhang.atlassian.net/wiki/x/AYBl)
 
 
 <!-- CONTACT -->
