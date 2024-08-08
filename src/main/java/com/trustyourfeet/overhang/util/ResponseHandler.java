@@ -13,7 +13,7 @@ public class ResponseHandler {
             String message,
             Object responseObj,
             String error) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", status.value());
         map.put("message", message);
         map.put("data", responseObj);
