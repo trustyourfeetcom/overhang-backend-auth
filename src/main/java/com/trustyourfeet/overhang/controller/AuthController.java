@@ -18,7 +18,7 @@ import com.trustyourfeet.overhang.exception.InvalidJwtTokenException;
 import com.trustyourfeet.overhang.exception.InvalidLoginCredentialsException;
 import com.trustyourfeet.overhang.exception.UsernameAlreadyExistsException;
 import com.trustyourfeet.overhang.service.AuthService;
-import com.trustyourfeet.overhang.util.ApiResponse;
+import com.trustyourfeet.overhang.util.ResponseHandler;
 
 @RestController
 @RequestMapping("/auth")
@@ -32,72 +32,60 @@ public class AuthController {
     }
 
     @PostMapping("/sessions")
-    public ResponseEntity<ApiResponse<UserLoginResponseDto>> performUserLogin(
+    public ResponseEntity<Object> performUserLogin(
             @RequestBody UserLoginRequestDto userLoginRequestDTO) {
         LOGGER.info("User login attempt for username: {}", userLoginRequestDTO.getUsername());
+
         UserLoginResponseDto loginResponseDTO = authService.performUserLogin(userLoginRequestDTO);
         LOGGER.info("User login successful for username: {}", userLoginRequestDTO.getUsername());
 
-        ApiResponse<UserLoginResponseDto> response = new ApiResponse<>(
-                HttpStatus.OK.value(),
+        return ResponseHandler.generateResponse(HttpStatus.OK,
                 "Login successful",
-                loginResponseDTO, null);
-
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+                loginResponseDTO,
+                null);
     }
 
     @PostMapping("/accounts")
-    public ResponseEntity<ApiResponse<UserRegistrationResponseDto>> createUserAccount(
+    public ResponseEntity<Object> createUserAccount(
             @RequestBody UserRegistrationRequestDto userCreationRequestDTO) {
         LOGGER.info("Account registration attempt for username: {}", userCreationRequestDTO.getUsername());
+
         UserRegistrationResponseDto userCreationResponseDTO = authService.createUserAccount(userCreationRequestDTO);
         LOGGER.info("Account registration successful for username: {}", userCreationRequestDTO.getUsername());
 
-        ApiResponse<UserRegistrationResponseDto> response = new ApiResponse<>(
-                HttpStatus.CREATED.value(),
+        return ResponseHandler.generateResponse(HttpStatus.CREATED,
                 "Registration successful",
                 userCreationResponseDTO,
                 null);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @ExceptionHandler(UsernameAlreadyExistsException.class)
-    public ResponseEntity<ApiResponse<Void>> handleUserAlreadyExistsException(UsernameAlreadyExistsException ex) {
+    public ResponseEntity<Object> handleUserAlreadyExistsException(UsernameAlreadyExistsException ex) {
         LOGGER.warn("User registration failed: {}", ex.getMessage());
-
-        ApiResponse<Void> response = new ApiResponse<>(
-                HttpStatus.CONFLICT.value(),
+        return ResponseHandler.generateResponse(
+                HttpStatus.CONFLICT,
                 "User registration failed",
                 null,
                 ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
     @ExceptionHandler(InvalidLoginCredentialsException.class)
-    public ResponseEntity<ApiResponse<Void>> handleInvalidCredentialsException(InvalidLoginCredentialsException ex) {
+    public ResponseEntity<Object> handleInvalidCredentialsException(
+            InvalidLoginCredentialsException ex) {
         LOGGER.warn("User login failed: {}", ex.getMessage());
-
-        ApiResponse<Void> response = new ApiResponse<>(
-                HttpStatus.UNAUTHORIZED.value(),
+        return ResponseHandler.generateResponse(
+                HttpStatus.UNAUTHORIZED,
                 "Invalid login credentials",
                 null,
                 ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
     @ExceptionHandler(InvalidJwtTokenException.class)
-    public ResponseEntity<ApiResponse<Void>> handleInvalidJwtTokenException(InvalidJwtTokenException ex) {
+    public ResponseEntity<Object> handleInvalidJwtTokenException(InvalidJwtTokenException ex) {
         LOGGER.warn("JWT validation failed: {}", ex.getMessage());
-
-        ApiResponse<Void> response = new ApiResponse<>(
-                HttpStatus.UNAUTHORIZED.value(),
+        return ResponseHandler.generateResponse(HttpStatus.UNAUTHORIZED,
                 "Invalid JWT token",
                 null,
                 ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 }
