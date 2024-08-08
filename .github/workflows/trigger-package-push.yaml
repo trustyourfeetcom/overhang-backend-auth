@@ -28,7 +28,7 @@ jobs:
           github.rest.repos.createDispatchEvent({
             owner: '${{ github.repository_owner }}',
             repo: 'overhang-devops-manifest',
-            event_type: 'docker-build-push',
+            event_type: 'package-push',
             client_payload: {
               service_repo: '${{ github.repository }}',
               service_name: '${{ github.event.repository.name }}',
