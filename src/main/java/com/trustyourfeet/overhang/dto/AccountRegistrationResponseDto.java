@@ -1,9 +1,9 @@
 package com.trustyourfeet.overhang.dto;
 
-public class UserRegistrationResponseDto {
+public class AccountRegistrationResponseDto {
     private final String token;
 
-    public UserRegistrationResponseDto(String token) {
+    public AccountRegistrationResponseDto(String token) {
         this.token = token;
     }
 

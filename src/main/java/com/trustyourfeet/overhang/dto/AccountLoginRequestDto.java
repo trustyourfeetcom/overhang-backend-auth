@@ -1,17 +1,8 @@
 package com.trustyourfeet.overhang.dto;
 
-public class UserRegistrationRequestDto {
-    private String email;
-    private String password;
+public class AccountLoginRequestDto {
     private String username;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    private String password;
 
     public String getUsername() {
         return username;
