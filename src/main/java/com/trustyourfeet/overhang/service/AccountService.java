@@ -26,10 +26,10 @@ public class AccountService {
     private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     @Autowired
-    private KafkaProducerService kafkaProducerService;
+    private final AccountRepository accountRepository;
 
     @Autowired
-    private final AccountRepository accountRepository;
+    private final RabbitMqService rabbitMqService;
 
     @Autowired
     private final JwtService jwtService;
@@ -38,11 +38,11 @@ public class AccountService {
     private final PasswordEncoder passwordEncoder;
 
     public AccountService(AccountRepository accountRepository, JwtService jwtService,
-            KafkaProducerService kafkaProducerService, PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, RabbitMqService rabbitMqService) {
         this.accountRepository = accountRepository;
-        this.kafkaProducerService = kafkaProducerService;
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
+        this.rabbitMqService = rabbitMqService;
     }
 
     public AccountLoginResponseDto loginAccount(AccountLoginRequestDto request) {
@@ -84,7 +84,7 @@ public class AccountService {
                 account.getId(),
                 account.getUsername(),
                 account.getEmail());
-        kafkaProducerService.sendRegistrationEvent(accountRegistrationEvent);
+        rabbitMqService.publishAccountRegistrationEvent(accountRegistrationEvent);
 
         String token = jwtService.generateToken(request.getUsername());
 
